@@ -513,12 +513,9 @@ def test_call_extra_hook_order(hc: HookCaller, addmeth: AddMeth) -> None:
     ]
 
 def test_has_specification_method_exists(hc: HookCaller) -> None:
-    """Test that has_specification() method exists and works correctly."""
-    # The hook caller should have a spec since it was created with @hookspec
     assert hc.has_specification() is True
     assert hc.spec is not None
     
-    # Create a hook caller without a spec
     pm = PluginManager("test")
     hc_no_spec = HookCaller("test_hook", pm._hookexec)
     assert hc_no_spec.has_specification() is False
@@ -526,6 +523,5 @@ def test_has_specification_method_exists(hc: HookCaller) -> None:
 
 
 def test_has_spec_method_does_not_exist(hc: HookCaller) -> None:
-    """Test that the old has_spec() method has been removed."""
     assert not hasattr(hc, 'has_spec'), \
         "The old has_spec() method should not exist anymore. Use has_specification() instead."

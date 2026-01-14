@@ -417,7 +417,7 @@ class HookCaller:
             self.set_specification(specmodule_or_class, spec_opts)
 
     # TODO: Document, or make private.
-    def has_spec(self) -> bool:
+    def has_specification(self) -> bool:
         return self.spec is not None
 
     # TODO: Document, or make private.
