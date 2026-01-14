@@ -446,16 +446,9 @@ class HookCaller:
                 return
         raise ValueError(f"plugin {plugin!r} not found")
 
-    def get_hookimplementations(self) -> list[HookImpl]:
+    def get_hookimpls(self) -> list[HookImpl]:
         """Get all registered hook implementations for this hook."""
         return self._hookimpls.copy()
-
-    def get_hookimpls(self) -> list[HookImpl]:
-        """Deprecated: Use get_hookimplementations() instead.
-        
-        This method is kept for backward compatibility.
-        """
-        return self.get_hookimplementations()
 
     def _add_hookimpl(self, hookimpl: HookImpl) -> None:
         """Add an implementation to the callback chain."""

@@ -79,7 +79,7 @@ def test_adding_nonwrappers(hc: HookCaller, addmeth: AddMeth) -> None:
     def he_method3() -> None:
         pass
 
-    assert funcs(hc.get_hookimplementations()) == [he_method1, he_method2, he_method3]
+    assert funcs(hc.get_hookimpls()) == [he_method1, he_method2, he_method3]
 
 
 def test_adding_nonwrappers_trylast(hc: HookCaller, addmeth: AddMeth) -> None:
@@ -95,7 +95,7 @@ def test_adding_nonwrappers_trylast(hc: HookCaller, addmeth: AddMeth) -> None:
     def he_method1_b() -> None:
         pass
 
-    assert funcs(hc.get_hookimplementations()) == [he_method1, he_method1_middle, he_method1_b]
+    assert funcs(hc.get_hookimpls()) == [he_method1, he_method1_middle, he_method1_b]
 
 
 def test_adding_nonwrappers_trylast3(hc: HookCaller, addmeth: AddMeth) -> None:
@@ -115,7 +115,7 @@ def test_adding_nonwrappers_trylast3(hc: HookCaller, addmeth: AddMeth) -> None:
     def he_method1_d() -> None:
         pass
 
-    assert funcs(hc.get_hookimplementations()) == [
+    assert funcs(hc.get_hookimpls()) == [
         he_method1_d,
         he_method1_b,
         he_method1_a,
@@ -136,7 +136,7 @@ def test_adding_nonwrappers_trylast2(hc: HookCaller, addmeth: AddMeth) -> None:
     def he_method1() -> None:
         pass
 
-    assert funcs(hc.get_hookimplementations()) == [he_method1, he_method1_middle, he_method1_b]
+    assert funcs(hc.get_hookimpls()) == [he_method1, he_method1_middle, he_method1_b]
 
 
 def test_adding_nonwrappers_tryfirst(hc: HookCaller, addmeth: AddMeth) -> None:
@@ -152,7 +152,7 @@ def test_adding_nonwrappers_tryfirst(hc: HookCaller, addmeth: AddMeth) -> None:
     def he_method1_b() -> None:
         pass
 
-    assert funcs(hc.get_hookimplementations()) == [he_method1_middle, he_method1_b, he_method1]
+    assert funcs(hc.get_hookimpls()) == [he_method1_middle, he_method1_b, he_method1]
 
 
 def test_adding_wrappers_ordering(hc: HookCaller, addmeth: AddMeth) -> None:
@@ -176,7 +176,7 @@ def test_adding_wrappers_ordering(hc: HookCaller, addmeth: AddMeth) -> None:
     def he_method3():
         yield  # pragma: no cover
 
-    assert funcs(hc.get_hookimplementations()) == [
+    assert funcs(hc.get_hookimpls()) == [
         he_method1_middle,
         he_method1,
         he_method1_fun,
@@ -198,75 +198,75 @@ def test_adding_wrappers_ordering_tryfirst(hc: HookCaller, addmeth: AddMeth) -> 
     def he_method3():
         yield  # pragma: no cover
 
-    assert funcs(hc.get_hookimplementations()) == [he_method2, he_method1, he_method3]
+    assert funcs(hc.get_hookimpls()) == [he_method2, he_method1, he_method3]
 
 
 def test_adding_wrappers_complex(hc: HookCaller, addmeth: AddMeth) -> None:
-    assert funcs(hc.get_hookimplementations()) == []
+    assert funcs(hc.get_hookimpls()) == []
 
     @addmeth(hookwrapper=True, trylast=True)
     def m1():
         yield  # pragma: no cover
 
-    assert funcs(hc.get_hookimplementations()) == [m1]
+    assert funcs(hc.get_hookimpls()) == [m1]
 
     @addmeth()
     def m2() -> None: ...
 
-    assert funcs(hc.get_hookimplementations()) == [m2, m1]
+    assert funcs(hc.get_hookimpls()) == [m2, m1]
 
     @addmeth(trylast=True)
     def m3() -> None: ...
 
-    assert funcs(hc.get_hookimplementations()) == [m3, m2, m1]
+    assert funcs(hc.get_hookimpls()) == [m3, m2, m1]
 
     @addmeth(hookwrapper=True)
     def m4() -> None: ...
 
-    assert funcs(hc.get_hookimplementations()) == [m3, m2, m1, m4]
+    assert funcs(hc.get_hookimpls()) == [m3, m2, m1, m4]
 
     @addmeth(wrapper=True, tryfirst=True)
     def m5():
         yield  # pragma: no cover
 
-    assert funcs(hc.get_hookimplementations()) == [m3, m2, m1, m4, m5]
+    assert funcs(hc.get_hookimpls()) == [m3, m2, m1, m4, m5]
 
     @addmeth(tryfirst=True)
     def m6() -> None: ...
 
-    assert funcs(hc.get_hookimplementations()) == [m3, m2, m6, m1, m4, m5]
+    assert funcs(hc.get_hookimpls()) == [m3, m2, m6, m1, m4, m5]
 
     @addmeth()
     def m7() -> None: ...
 
-    assert funcs(hc.get_hookimplementations()) == [m3, m2, m7, m6, m1, m4, m5]
+    assert funcs(hc.get_hookimpls()) == [m3, m2, m7, m6, m1, m4, m5]
 
     @addmeth(wrapper=True)
     def m8():
         yield  # pragma: no cover
 
-    assert funcs(hc.get_hookimplementations()) == [m3, m2, m7, m6, m1, m4, m8, m5]
+    assert funcs(hc.get_hookimpls()) == [m3, m2, m7, m6, m1, m4, m8, m5]
 
     @addmeth(trylast=True)
     def m9() -> None: ...
 
-    assert funcs(hc.get_hookimplementations()) == [m9, m3, m2, m7, m6, m1, m4, m8, m5]
+    assert funcs(hc.get_hookimpls()) == [m9, m3, m2, m7, m6, m1, m4, m8, m5]
 
     @addmeth(tryfirst=True)
     def m10() -> None: ...
 
-    assert funcs(hc.get_hookimplementations()) == [m9, m3, m2, m7, m6, m10, m1, m4, m8, m5]
+    assert funcs(hc.get_hookimpls()) == [m9, m3, m2, m7, m6, m10, m1, m4, m8, m5]
 
     @addmeth(hookwrapper=True, trylast=True)
     def m11() -> None: ...
 
-    assert funcs(hc.get_hookimplementations()) == [m9, m3, m2, m7, m6, m10, m11, m1, m4, m8, m5]
+    assert funcs(hc.get_hookimpls()) == [m9, m3, m2, m7, m6, m10, m11, m1, m4, m8, m5]
 
     @addmeth(wrapper=True)
     def m12():
         yield  # pragma: no cover
 
-    assert funcs(hc.get_hookimplementations()) == [
+    assert funcs(hc.get_hookimpls()) == [
         m9,
         m3,
         m2,
@@ -284,7 +284,7 @@ def test_adding_wrappers_complex(hc: HookCaller, addmeth: AddMeth) -> None:
     @addmeth()
     def m13() -> None: ...
 
-    assert funcs(hc.get_hookimplementations()) == [
+    assert funcs(hc.get_hookimpls()) == [
         m9,
         m3,
         m2,
@@ -377,7 +377,7 @@ def test_hookrelay_registration_by_specname(pm: PluginManager) -> None:
     pm.add_hookspecs(Api)
     hook = pm.hook
     assert hasattr(hook, "hello")
-    assert len(pm.hook.hello.get_hookimplementations()) == 0
+    assert len(pm.hook.hello.get_hookimpls()) == 0
 
     class Plugin:
         @hookimpl(specname="hello")
