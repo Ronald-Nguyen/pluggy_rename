@@ -504,7 +504,7 @@ def test_get_hookimpls(pm: PluginManager) -> None:
             pass
 
     pm.add_hookspecs(Hooks)
-    assert pm.hook.he_method1.get_hookimpls() == []
+    assert pm.hook.he_method1.get_hookimplementations() == []
 
     class Plugin1:
         @hookimpl
@@ -524,7 +524,7 @@ def test_get_hookimpls(pm: PluginManager) -> None:
     pm.register(plugin2)
     pm.register(plugin3)
 
-    hookimpls = pm.hook.he_method1.get_hookimpls()
+    hookimpls = pm.hook.he_method1.get_hookimplementations()
     hook_plugins = [item.plugin for item in hookimpls]
     assert hook_plugins == [plugin1, plugin2]
 

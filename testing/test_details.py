@@ -50,7 +50,7 @@ def test_parse_hookimpl_override() -> None:
     pm.register(Plugin())
     pm.add_hookspecs(Spec)
 
-    hookimpls = pm.hook.x1meth.get_hookimpls()
+    hookimpls = pm.hook.x1meth.get_hookimplementations()
     assert len(hookimpls) == 1
     assert not hookimpls[0].hookwrapper
     assert not hookimpls[0].wrapper
@@ -58,13 +58,13 @@ def test_parse_hookimpl_override() -> None:
     assert not hookimpls[0].trylast
     assert not hookimpls[0].optionalhook
 
-    hookimpls = pm.hook.x1meth2.get_hookimpls()
+    hookimpls = pm.hook.x1meth2.get_hookimplementations()
     assert len(hookimpls) == 1
     assert hookimpls[0].hookwrapper
     assert not hookimpls[0].wrapper
     assert hookimpls[0].tryfirst
 
-    hookimpls = pm.hook.x1meth3.get_hookimpls()
+    hookimpls = pm.hook.x1meth3.get_hookimplementations()
     assert len(hookimpls) == 1
     assert not hookimpls[0].hookwrapper
     assert hookimpls[0].wrapper
@@ -191,7 +191,7 @@ def test_repr() -> None:
 
     plugin = Plugin()
     pname = pm.register(plugin)
-    assert repr(pm.hook.myhook.get_hookimpls()[0]) == (
+    assert repr(pm.hook.myhook.get_hookimplementations()[0]) == (
         f"<HookImpl plugin_name={pname!r}, plugin={plugin!r}>"
     )
 
